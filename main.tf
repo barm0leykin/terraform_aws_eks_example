@@ -3,7 +3,7 @@ provider "aws" {
   region  = var.region
   profile = "default"
   shared_credentials_file = "~/.aws/credentials"
-  }
+}
 
 resource "aws_vpc" "eks-staging" {
   cidr_block                       = "10.30.0.0/16"
@@ -16,6 +16,17 @@ resource "aws_vpc" "eks-staging" {
     Name    = "eks-staging"
     Managed = "Terraform"
   }
+}
+
+resource "aws_subnet" "eks-staging-subnet-public-1" {
+    vpc_id = aws_vpc.eks-staging.id
+    cidr_block = "10.30.1.0/24"
+    // map_public_ip_on_launch = false
+    availability_zone = "eu-central-1a"
+    tags = {
+        Name = "eks-staging-subnet-public-1"
+        Managed = "Terraform"
+    }
 }
 
 resource "aws_subnet" "eks-staging-subnet-private-1" {

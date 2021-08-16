@@ -1,0 +1,29 @@
+resource "aws_iam_role" "akudryashov" {
+  name = "akudryashov"
+  path = "/"
+
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::114933429123:user/akudryashov"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "Bool": {
+          "aws:MultiFactorAuthPresent": "true"
+        }
+      }
+    }
+  ]
+}
+POLICY
+
+  tags = {
+    Task    = "DVPS-16667"
+    Managed = "Terraform"
+  }
+}

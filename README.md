@@ -11,14 +11,19 @@ arn:aws:eks:eu-central-1:801983320073:cluster/staging
 ``` bash
 curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator
 chmod +x ./aws-iam-authenticator
-mv aws-iam-authenticator /usr/local/bin/
+sudo mv aws-iam-authenticator /usr/local/bin/
 ```
 
 ## получение кубконфига
 ```
-aws eks --region eu-west-2 --profile arseniy update-kubeconfig --name eks-cluster-manual
-```
+$ aws eks --profile default --region eu-central-1 update-kubeconfig --name k8s-staging
+Added new context arn:aws:eks:eu-central-1:801983320073:cluster/k8s-staging to /home/akudryashov/.kube/config
 
+```
+## получение токена
+```
+aws --profile default --region eu-central-1 eks get-token --cluster-name k8s-staging
+```
 
 ### Добавляем алиас для удобства
 ```
