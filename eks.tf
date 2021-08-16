@@ -18,13 +18,18 @@ module "eks-cluster" {
   source          = "terraform-aws-modules/eks/aws"
   cluster_name    = "staging"
   cluster_version = "1.21"
-  subnets         = [aws_subnet.eks-staging-subnet-private-1.id, aws_subnet.eks-staging-subnet-private-2.id, aws_subnet.eks-staging-subnet-private-3.id]
   vpc_id          = aws_vpc.eks-staging.id
+
+  subnets         = [
+    aws_subnet.eks-staging-subnet-private-1.id,
+    aws_subnet.eks-staging-subnet-private-2.id,
+    aws_subnet.eks-staging-subnet-private-3.id
+  ]
 
   worker_groups = [
     {
       instance_type = "t3.medium"
-      asg_max_size  = 2 
+      asg_max_size  = 2
     }
   ]
 }

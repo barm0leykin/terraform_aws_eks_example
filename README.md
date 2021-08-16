@@ -13,3 +13,14 @@ curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.21
 chmod +x ./aws-iam-authenticator
 mv aws-iam-authenticator /usr/local/bin/
 ```
+
+## получение кубконфига
+```
+aws eks --region eu-west-2 --profile arseniy update-kubeconfig --name eks-cluster-manual
+```
+
+
+### Добавляем алиас для удобства
+```
+echo "alias kk=\"kubectl\"" >> ~/.bashrc
+```
