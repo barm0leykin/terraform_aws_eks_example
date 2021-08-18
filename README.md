@@ -16,13 +16,13 @@ sudo mv aws-iam-authenticator /usr/local/bin/
 
 ## получение кубконфига
 ```
-$ aws eks --profile default --region eu-central-1 update-kubeconfig --name k8s-staging
-Added new context arn:aws:eks:eu-central-1:801983320073:cluster/k8s-staging to /home/akudryashov/.kube/config
+$ aws eks update-kubeconfig --profile default --region eu-central-1 --name staging
+Added new context arn:aws:eks:eu-central-1:801983320073:cluster/staging to /home/akudryashov/.kube/config
 
 ```
 ## получение токена
 ```
-aws --profile default --region eu-central-1 eks get-token --cluster-name k8s-staging
+aws eks get-token --profile default --region eu-central-1 --cluster-name staging
 ```
 
 ### Добавляем алиас для удобства

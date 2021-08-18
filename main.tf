@@ -18,48 +18,49 @@ resource "aws_vpc" "eks-staging" {
   }
 }
 
-resource "aws_subnet" "eks-staging-subnet-public-1" {
-    vpc_id = aws_vpc.eks-staging.id
-    cidr_block = "10.30.1.0/24"
-    // map_public_ip_on_launch = false
-    availability_zone = "eu-central-1a"
-    tags = {
-        Name = "eks-staging-subnet-public-1"
-        Managed = "Terraform"
-    }
+resource "aws_subnet" "eks-staging-private-a" {
+  vpc_id                  = aws_vpc.eks-staging.id
+  cidr_block              = "10.30.1.0/24"
+  map_public_ip_on_launch = false
+  availability_zone       = "${var.regions.frankfurt}a"
+
+  tags = {
+    Name = "eks-staging-private-a"
+  }
 }
 
-resource "aws_subnet" "eks-staging-subnet-private-1" {
-    vpc_id = aws_vpc.eks-staging.id
-    cidr_block = "10.30.1.0/24"
-    map_public_ip_on_launch = false
-    availability_zone = "eu-central-1a"
-    tags = {
-        Name = "eks-staging-subnet-private-1"
-        Managed = "Terraform"
-    }
+resource "aws_subnet" "eks-staging-private-b" {
+  vpc_id                  = aws_vpc.eks-staging.id
+  cidr_block              = "10.30.2.0/24"
+  map_public_ip_on_launch = false
+  availability_zone       = "${var.regions.frankfurt}b"
+
+  tags = {
+    Name = "eks-staging-private-b"
+  }
 }
 
-resource "aws_subnet" "eks-staging-subnet-private-2" {
-    vpc_id = aws_vpc.eks-staging.id
-    cidr_block = "10.30.2.0/24"
-    map_public_ip_on_launch = false
-    availability_zone = "eu-central-1b"
-    tags = {
-        Name = "eks-staging-subnet-private-1"
-        Managed = "Terraform"
-    }
+resource "aws_subnet" "eks-staging-public-a" {
+  vpc_id                  = aws_vpc.eks-staging.id
+  cidr_block              = "10.30.11.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "${var.regions.frankfurt}a"
+
+  tags = {
+    Name = "eks-staging-public-a"
+  }
 }
 
-resource "aws_subnet" "eks-staging-subnet-private-3" {
-    vpc_id = aws_vpc.eks-staging.id
-    cidr_block = "10.30.3.0/24"
-    map_public_ip_on_launch = false
-    availability_zone = "eu-central-1c"
-    tags = {
-        Name = "eks-staging-subnet-private-1"
-        Managed = "Terraform"
-    }
+resource "aws_subnet" "eks-staging-public-b" {
+  vpc_id                  = aws_vpc.eks-staging.id
+  cidr_block              = "10.30.12.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "${var.regions.frankfurt}b"
+
+  tags = {
+    Name = "eks-staging-public-b"
+  }
 }
+
 #########################
 # output
