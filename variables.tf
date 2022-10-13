@@ -1,5 +1,6 @@
 variable "region" {
-  default = "eu-central-1"
+  // default = "eu-central-1"
+  default = "us-east-1"
 }
 
 variable "regions" {
@@ -16,5 +17,5 @@ variable "regions" {
 
 
 locals {
-  cluster_name = "staging"
+  cluster_name = "aws-tf-test"
 }

@@ -14,6 +14,34 @@ chmod +x ./aws-iam-authenticator
 sudo mv aws-iam-authenticator /usr/local/bin/
 ```
 
+## assume role - если нужно
+aws sts assume-role --profile tv --role-arn arn:aws:iam::111111111111:role/akudryashov --role-session-name akudryashov
+
+MFA
+aws sts assume-role --profile tv --role-arn arn:aws:iam::111111111111:role/akudryashov --role-session-name akudryashov --region eu-west-2 --serial-number arn:aws:iam::114933429123:mfa/akudryashov --token-code 416760
+
+Assume и запись значений в переменные окружения
+eval $(aws sts assume-role --profile tv --role-arn arn:aws:iam::111111111111:role/akudryashov --role-session-name akudryashov --region eu-west-2 --serial-number arn:aws:iam::114933429123:mfa/akudryashov --token-code 41676 | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=\(.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey)\nexport AWS_SESSION_TOKEN=\(.SessionToken)\n"')
+
+MFA=1111
+ARN=arn:aws:iam::1111111111111111:role/akudryashov
+eval $(aws sts assume-role --profile tv-akiyanov --role-arn $ARN --role-session-name akudryashov --region eu-west-2 --serial-number arn:aws:iam::114933429123:mfa/akudryashov --token-code $MFA | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=\(.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey)\nexport AWS_SESSION_TOKEN=\(.SessionToken)\n"')
+
+Можно подправить файл
+> ~/.aws/credentials
+```
+[tv]
+aws_access_key_id = ...
+aws_secret_access_key = ...
+region = us-east-1
+
+[tv-staging]
+role_arn = arn:aws:iam::111111111111:role/akudryashov
+mfa_serial = arn:aws:iam::111111111111:mfa/akudryashov
+source_profile = tv
+```
+и использовать потом так `aws ... --profile tv-staging`
+
 ## получение кубконфига
 ```
 $ aws eks update-kubeconfig --profile default --region eu-central-1 --name staging
@@ -29,3 +57,29 @@ aws eks get-token --profile default --region eu-central-1 --cluster-name staging
 ```
 echo "alias kk=\"kubectl\"" >> ~/.bashrc
 ```
+
+
+AWS_PROFILE=default
+AWS_REGION=us-east-1
+SESSION_NAME=akudryashov
+ARN=arn:aws:iam::691889635880:role/akudryashov
+SERIAL_NUMBER=arn:aws:iam::114933429123:mfa/akudryashov
+
+AWS_PROFILE=tv-staging
+REGION=us-east-1
+SESSION_NAME=akudryashov
+ARN=arn:aws:iam::873489506556:role/akudryashov
+SERIAL_NUMBER=arn:aws:iam::114933429123:mfa/akudryashov
+
+MFA=1111
+
+eval $(aws sts assume-role --profile $AWS_PROFILE --role-arn $ARN --role-session-name $SESSION_NAME --region $AWS_REGION --serial-number $SERIAL_NUMBER --token-code $MFA | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=\(.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey)\nexport AWS_SESSION_TOKEN=\(.SessionToken)\n"')
+
+eval $(aws sts assume-role --profile $AWS_PROFILE --role-arn $ARN --role-session-name $SESSION_NAME --region $AWS_REGION  | jq -r '.Credentials | "export AWS_ACCESS_KEY_ID=\(.AccessKeyId)\nexport AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey)\nexport AWS_SESSION_TOKEN=\(.SessionToken)\n"')
+
+aws eks list-clusters --profile tv-akiyanov --region us-east-1
+
+
+
+old
+aws sts assume-role --profile tv --role-arn arn:aws:iam::873489506556:role/akudryashov --role-session-name akudryashov --region eu-west-2 --serial-number arn:aws:iam::114933429123:mfa/akudryashov --token-code 416760

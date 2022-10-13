@@ -60,12 +60,12 @@ eks-staging-gw
 
 ## Route tables
 Для публичной сети RT уже создана, переименуем в eks-staging-public-1
-Destination 0.0.0.0/0, Target IGW
+Destination 0.0.0.0/0, Target Internet Gateway
 На вкладке Subnet association добавляем публичные сети
 
 
 eks-staging-private-1
-Destination 0.0.0.0/0, Target Internet Gateway
+Destination 0.0.0.0/0, Target Nat Gateway
 На вкладке Subnet association добавляем приватные сети
 
 ## EKS
