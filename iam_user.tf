@@ -1,5 +1,5 @@
 resource "aws_iam_user" "kuber_user" {
-  name = "kuber_user"
+  name = "-robot-eks-user"
   path = "/"
 
   tags = {

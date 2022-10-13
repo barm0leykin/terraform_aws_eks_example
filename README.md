@@ -44,7 +44,12 @@ source_profile = tv
 
 ## получение кубконфига
 ```
-$ aws eks update-kubeconfig --profile default --region eu-central-1 --name staging
+aws eks list-clusters --profile tv-akiyanov --region us-east-1
+```
+
+```
+$ aws eks update-kubeconfig --profile tv-akiyanov --region us-east-1 --name aws-tf-test --kubeconfig ~/.kube/aws-tf-test
+
 Added new context arn:aws:eks:eu-central-1:801983320073:cluster/staging to /home/akudryashov/.kube/config
 
 ```
