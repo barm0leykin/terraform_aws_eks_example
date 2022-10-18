@@ -1,0 +1,55 @@
+{
+  "version": 4,
+  "terraform_version": "1.0.11",
+  "serial": 354,
+  "lineage": "dbde2a31-8fff-79a4-d2e6-fa5f1ea57b24",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "eks-staging",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:691889635880:vpc/vpc-04148403f6ad4eeb0",
+            "assign_generated_ipv6_cidr_block": false,
+            "cidr_block": "10.30.0.0/16",
+            "default_network_acl_id": "acl-086ed7f5b3d8a1454",
+            "default_route_table_id": "rtb-0036d337fe325e78a",
+            "default_security_group_id": "sg-02bafb790bdfda031",
+            "dhcp_options_id": "dopt-16b9aa6d",
+            "enable_classiclink": false,
+            "enable_classiclink_dns_support": false,
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "id": "vpc-04148403f6ad4eeb0",
+            "instance_tenancy": "default",
+            "ipv4_ipam_pool_id": null,
+            "ipv4_netmask_length": null,
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "ipv6_cidr_block_network_border_group": "",
+            "ipv6_ipam_pool_id": "",
+            "ipv6_netmask_length": 0,
+            "main_route_table_id": "rtb-0036d337fe325e78a",
+            "owner_id": "691889635880",
+            "tags": {
+              "Managed": "Terraform",
+              "Name": "eks-staging"
+            },
+            "tags_all": {
+              "Managed": "Terraform",
+              "Name": "eks-staging"
+            }
+          },
+          "sensitive_attributes": [],
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "create_before_destroy": true
+        }
+      ]
+    }
+  ]
+}
