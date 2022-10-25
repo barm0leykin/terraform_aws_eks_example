@@ -33,7 +33,6 @@ aws sts assume-role \
 	--role-arn "${role_arn}" \
 	--role-session-name "${session_name}" \
 	--serial-number "${mfa_arn}" \
-	--duration-seconds 3600 \
 	--token-code "${AWS_MFA_CODE}" |
 jq -r '.Credentials|"\(.SessionToken)\n\(.AccessKeyId)\n\(.SecretAccessKey)"' |
 for v in AWS_SESSION_TOKEN AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do

@@ -1,21 +1,13 @@
 variable "region" {
-  // default = "eu-central-1"
-  default = "us-east-1"
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"
 }
-
-variable "regions" {
-  type = map(string)
-  default = {
-    ohio       = "us-east-2"
-    virginia   = "us-east-1"
-    california = "us-west-1"
-    oregon     = "us-west-2"
-    frankfurt  = "eu-central-1"
-    stockholm  = "eu-north-1"
-  }
-}
-
 
 locals {
-  cluster_name = "aws-tf-test"
+  cluster_name = "eks-v2"
+  tags = merge({
+    Name = "EKS ${local.cluster_name}",
+    "kubernetes.io/cluster/${local.cluster_name}": "owned"
+  })
 }

@@ -1,66 +1,40 @@
-## AWS
+# Kubernetes provider
+# https://learn.hashicorp.com/terraform/kubernetes/provision-eks-cluster#optional-configure-terraform-kubernetes-provider
+# To learn how to schedule deployments and services using the provider, go here: https://learn.hashicorp.com/terraform/kubernetes/deploy-nginx-kubernetes
+# The Kubernetes provider is included in this file so the EKS module can complete successfully. Otherwise, it throws an error when creating `kubernetes_config_map.aws_auth`.
+# You should **not** schedule deployments and services in this workspace. This keeps workspaces modular (one for provision EKS, another for scheduling Kubernetes resources) as per best practices.
+provider "kubernetes" {
+  # version = "2.12.1"
+  host                   = module.eks.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", local.cluster_name]
+    command     = "aws"
+  }
+}
+
 provider "aws" {
-  region  = var.region
-  # profile = "tv-akiyanov"
-  shared_credentials_file = "~/.aws/credentials"
+  region = var.region
 }
 
-resource "aws_vpc" "eks-staging" {
-  cidr_block                       = "10.30.0.0/16"
-  instance_tenancy                 = "default"
-  enable_dns_support               = "true"
-  enable_dns_hostnames             = "true"
-  assign_generated_ipv6_cidr_block = "false"
-  enable_classiclink               = "false"
-  tags = {
-    Name    = "eks-staging"
-    Managed = "Terraform"
+provider "helm" {
+  # version = "2.7.1"
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_id]
+      command     = "aws"
+    }
   }
 }
 
-resource "aws_subnet" "eks-staging-private-a" {
-  vpc_id                  = aws_vpc.eks-staging.id
-  cidr_block              = "10.30.1.0/24"
-  map_public_ip_on_launch = false
-  availability_zone       = "${var.regions.virginia}a"
+# data "aws_availability_zones" "available" {}
 
-  tags = {
-    Name = "eks-staging-private-a"
-  }
-}
 
-resource "aws_subnet" "eks-staging-private-b" {
-  vpc_id                  = aws_vpc.eks-staging.id
-  cidr_block              = "10.30.2.0/24"
-  map_public_ip_on_launch = false
-  availability_zone       = "${var.regions.virginia}b"
-
-  tags = {
-    Name = "eks-staging-private-b"
-  }
-}
-
-resource "aws_subnet" "eks-staging-public-a" {
-  vpc_id                  = aws_vpc.eks-staging.id
-  cidr_block              = "10.30.11.0/24"
-  map_public_ip_on_launch = true
-  availability_zone       = "${var.regions.virginia}a"
-
-  tags = {
-    Name = "eks-staging-public-a"
-  }
-}
-
-resource "aws_subnet" "eks-staging-public-b" {
-  vpc_id                  = aws_vpc.eks-staging.id
-  cidr_block              = "10.30.12.0/24"
-  map_public_ip_on_launch = true
-  availability_zone       = "${var.regions.virginia}b"
-
-  tags = {
-    Name = "eks-staging-public-b"
-  }
-}
-
-#########################
-# output
+# resource "random_string" "suffix" {
+#   length  = 8
+#   special = false
+# }

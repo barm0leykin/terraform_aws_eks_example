@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: netware
+spec:
+  # hostAliases:
+  # - ip: "12.11.11.1"
+  #   hostnames:
+  #   - "git.xtools.tv"
+  containers:
+  - name: netware
+    image: rancher/network-diagnostics:v0.1.2
+    # image: radial/busyboxplus:curl
+    args: [/bin/sh, -c, 'i=0; while true; do echo "$i: $(date)"; i=$((i+1)); sleep 1; done']
