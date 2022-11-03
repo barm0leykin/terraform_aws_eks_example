@@ -1,0 +1,22 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata: 
+  name: ebs-sc
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer 
+allowVolumeExpansion: true
+
+parameters:
+  csi.storage.k8s.io/fstype: ext4
+  type: gp3
+  iopsPerGB: "50"
+  iops: 3000
+  throughput: 200
+  encrypted: false
+  allowAutoIOPSPerGBIncrease: false
+  
+# allowedTopologies:
+# - matchLabelExpressions:
+#   - key: topology.ebs.csi.aws.com/zone
+#     values:
+#     - us-east-2c

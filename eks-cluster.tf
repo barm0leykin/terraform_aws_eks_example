@@ -12,6 +12,8 @@ module "eks" {
   
   cluster_additional_security_group_ids = [aws_security_group.eks.id]
 
+#  depends_on = [ aws_iam_policy.eks-ebs-sci-driver ]
+
   cluster_addons = {
     coredns = {
       resolve_conflicts = "OVERWRITE"
@@ -20,6 +22,9 @@ module "eks" {
       resolve_conflicts = "OVERWRITE"
     }
     vpc-cni = {
+      resolve_conflicts = "OVERWRITE"
+    }
+    aws-ebs-csi-driver = {
       resolve_conflicts = "OVERWRITE"
     }
   }
@@ -51,6 +56,9 @@ module "eks" {
       vpc_security_group_ids = [
         aws_security_group.node_group.id
       ]
+      
+      iam_role_additional_policies            = [ "arn:aws:iam::691889635880:policy/eks-ebs-sci-driver" ]
+      # iam_role_additional_policies            = [ aws_iam_policy.eks-ebs-sci-driver.arn ]
     }
     # tags = local.tags
   }

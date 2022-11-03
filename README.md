@@ -17,9 +17,10 @@ https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.4/guide/servic
 https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html
 https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
 
+При необходимости можно установить AWS Load Balancer Controller вручную (а ещё можно через терраформ):
+
 helm repo add eks https://aws.github.io/eks-charts
 helm repo update
-
 
 helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \

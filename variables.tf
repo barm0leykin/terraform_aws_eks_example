@@ -7,7 +7,7 @@ variable "region" {
 locals {
   cluster_name = "eks-v2"
   tags = merge({
-    Name = "EKS ${local.cluster_name}",
+    # Name = "EKS ${local.cluster_name}",
     "kubernetes.io/cluster/${local.cluster_name}": "owned"
   })
 }
